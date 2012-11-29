@@ -2,14 +2,13 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from werkzeug import check_password_hash, generate_password_hash
 from flask.ext.login import login_required, login_user, logout_user, current_user
 
-import app_test
-from app_test import db
-from app_test.users.forms import LoginForm #add regester form when needed
-from app_test.users.models import User
+from orvsd_central import db
+from forms import LoginForm #add regester form when needed
+from models import User
 
-mod = Blueprint('users', __name__, url_prefix="/users")
+userblp = Blueprint('users', __name__, url_prefix="/users")
 
-@mod.route('/me/')
+@userblp.route('/me/')
 @login_required
 def home():
     """
@@ -17,7 +16,7 @@ def home():
     """
     return render_template('users/templates/profile.html', user=current_user) #not sure current_user works this way, write test
 
-@mod.route("/login/", methods=['GET', 'POST'])
+@userblp.route("/login/", methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
 
@@ -30,7 +29,7 @@ def login():
             return redirect("/users/me/")
     return render_template("login.html", form=form)
 
-@mod.route("/logout/")
+@userblp.route("/logout/")
 @login_required
 def logout():
     logout_user()

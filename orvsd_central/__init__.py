@@ -2,7 +2,7 @@ from flask import Flask, render_template, g
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 import sqlite3
-import users
+
 
 app = Flask(__name__) 
 app.config.from_object('config')
@@ -11,14 +11,14 @@ lm = LoginManager()
 
 db = SQLAlchemy(app)
 
+import models
+
 lm.setup_app(app)
 @lm.user_loader
 def load_user(userid):
     return User.get(userid)
 
-def import_models():
-    import users.models
-    import info.models
+
 
 @app.before_request
 def before_request():
@@ -28,7 +28,5 @@ def before_request():
 def teardown_request(exception):
     g.db.db_session.remove()        
 
-import_models()
-
-from users.views import mod as usersModule
-app.register_blueprint(usersModule)
+from views import userblp 
+app.register_blueprint(userblp)
