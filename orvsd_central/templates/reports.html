@@ -14,26 +14,29 @@
             <tr>
                 <td>
                     <select name="all_districts">
-                        <option selected value="all">All</option>
+                        <option selected value="All">All</option>
                         {% for district in all_districts %}
                             <option value="{{district.name}}">{{district.name}}</option>
                         {% endfor %}
+                        <option value="None">None</option>
                     </select>
                 </td>
                 <td>
                     <select name="all_schools">
-                        <option selected value="all">All</option>
+                        <option selected value="All">All</option>
                         {% for school in all_schools %}
                             <option value="{{school.name}}">{{school.name}}</option>
                         {% endfor %}
+                        <option value="None">None</option>
                     </select>
                 </td>
                 <td>
                     <select name="all_courses">
-                        <option selected value="all">All</option>
+                        <option selected value="All">All</option>
                         {% for course in all_courses %}
                             <option value="{{course.name}}">{{course.name}}</option>
                         {% endfor %}
+                        <option value="None">None</option>
                     </select>
                 </td>
                 <td>
@@ -56,7 +59,7 @@
             </tr>
             {% for district in districts %}
             <tr>
-                <td>{{district.name}}</td>
+                <td><a href="/District/{{district.name}}">{{district.name}}</a></td>
                 <td>{{district.schools|count}}</td>
                 <td>{{district.sites|count}}</td>
                 <td>{{district.courses|count}}</td>
@@ -76,7 +79,7 @@
             </tr>
             {% for school in schools %}
             <tr>
-                <td>{{school.name}}</td>
+                <td><a href="/School/{{school.name}}">{{school.name}}</a></td>
                 <td>{{school.domain}}</td>
                 <td>{{school.license}}</td>
             </td>
@@ -94,7 +97,7 @@
             </tr>
             {% for course in courses %}
             <tr>
-                <td>{{course.name}}</td>
+                <td><a href="/Courses/{{course.name}}">{{course.name}}</a></td>
                 <td>{{course.installs}}</td>
                 <td>{{course.num_users}}</td>
             </td>
