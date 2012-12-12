@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title name="School: {{school.name}}">School: {{school.name}}</title>
+    </head>
+        <label text="School: {{school.name}}" size="16">School: {{school.name}}</label>
+
+        
+        District:      {{district_name}}
+        # of Admins:   {{admins}}
+        # of Teachers: {{teachers}}
+        # of Users:    {{users}}
+
+        {% include sites.html %} 
+
+        {% include courses.html %}
+
+</html>
