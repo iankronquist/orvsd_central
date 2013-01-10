@@ -212,3 +212,21 @@ class CourseDetail(db.Model):
     def __repr__(self):
         return "<Site('%s','%s','%s','%s','%s','%s','%s','%s','%s')>" % (self.course_id, self.serial, self.shrotname, self.filename, self.version, self.updated, self.active, self.moodle_version, self.source)
 
+
+"""
+Moodle Plugin Model for keeping track of the plugins installed on said moodle
+site
+"""
+class MoodlePlugins(db.Model):
+    __tablename__ = 'moodleplugins'
+    pass
+
+"""
+Normalization table for moodle plugin tpyes
+
+the id here will be used as a fk in MoodlePlugins
+"""
+class MoodlePluginTpyes(db.Model):
+    __tablename__ = 'moodleplugin_types'
+    pass
+
