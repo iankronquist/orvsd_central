@@ -219,14 +219,19 @@ site
 """
 class MoodlePlugins(db.Model):
     __tablename__ = 'moodleplugins'
-    pass
+    plugin_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    shortname = db.Column(db.String(255))
+    version = db.Column(db.Float())
+    plugin_type = db.Column(db.String(255))
 
-"""
-Normalization table for moodle plugin tpyes
+    def __init__(self, plugin_id, name, shortname, version, plugin_type):
+        self.plugin_id = plugin_id
+        self.name = name
+        self.shortname = shortname
+        self.version = version
+        self.plugin_type = plugin_type
 
-the id here will be used as a fk in MoodlePlugins
-"""
-class MoodlePluginTpyes(db.Model):
-    __tablename__ = 'moodleplugin_types'
-    pass
+    def __repr__(self):
+        return "<MoodlePlugin('%d, %s, %s, %d, %s')" % (self.plugin_id, self.name, self.shortname, self.version, self.plugin_type)
 
