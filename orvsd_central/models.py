@@ -223,7 +223,9 @@ class MoodlePlugins(db.Model):
     name = db.Column(db.String(255))
     shortname = db.Column(db.String(255))
     version = db.Column(db.Float())
-    plugin_type = db.Column(db.String(255))
+    ptypeid = db.Column(db.String(255), db.ForeignKey('moodleplugin_types.tid'))
+    ptype = relationship("MoodlePluginTypes")
+
 
     def __init__(self, plugin_id, name, shortname, version, plugin_type):
         self.plugin_id = plugin_id
@@ -234,4 +236,17 @@ class MoodlePlugins(db.Model):
 
     def __repr__(self):
         return "<MoodlePlugin('%d, %s, %s, %d, %s')" % (self.plugin_id, self.name, self.shortname, self.version, self.plugin_type)
+
+
+class MoodlePluginTypes(dx.Model):
+    __tablenome__ = 'moodleplugin_types'
+    tid = db.Column(db.Integer, primary_key=True)
+    ptype = db.Column(db.String(255), unique=True)
+
+    def __init__(self, tid, ptype):
+        self.tid = tid
+        self.ptype = ptype
+
+    def __repr__(self):
+        return "<MoodlePluginTypes('%d, %s')" % (self.tid, self.ptype)
 
