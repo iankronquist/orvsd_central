@@ -239,7 +239,7 @@ class MoodlePlugins(db.Model):
 
 
 class MoodlePluginTypes(db.Model):
-    __tablenome__ = 'moodleplugin_types'
+    __tablename__ = 'moodleplugin_types'
     tid = db.Column(db.Integer, primary_key=True)
     ptype = db.Column(db.String(255), unique=True)
 
