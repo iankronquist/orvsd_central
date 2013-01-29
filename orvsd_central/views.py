@@ -189,13 +189,13 @@ def remove_objects(category):
     return redirect('display/'+category)
 
 def get_obj_by_category(category):
-    if category == "District":
+    if category == "Districts":
         return District
-    elif category == "School":
+    elif category == "Schools":
         return School
-    elif category == "Site":
+    elif category == "Sites":
         return Site
-    elif category == "Course":
+    elif category == "Courses":
         return Course
     else:
         raise Exception('Invalid category: '+category)
