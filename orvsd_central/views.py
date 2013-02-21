@@ -37,7 +37,7 @@ def login():
         if user and user.password == form.password.data:
             login_user(user)
             flash("Logged in successfully.")
-            return redirect("/report")
+            return redirect("/overview")
 
     return render_template("login.html", form=form)
 
@@ -125,34 +125,94 @@ def logout():
     logout_user()
     return redirect('/login')
 
-@app.route("/report", methods=['GET', 'POST'])
+@app.route("/overview", methods=['GET'])
 @login_required
-def report():
-    user = current_user
-
+def report_overview():
     all_districts = District.query.order_by("name").all()
 
-    if request.method == "GET":
-        dist_count = District.query.count()
-        school_count = School.query.count()
-        course_count = Course.query.count()
-        site_count = SiteDetail.query.count()
+    dist_count = District.query.count()
+    school_count = School.query.count()
+    course_count = Course.query.count()
+    site_count = SiteDetail.query.count()
 
-        return render_template("report_overview.html", dist_count=dist_count,
+    return render_template("report_overview.html", dist_count=dist_count,
                                                        school_count=school_count,
                                                        course_count=course_count,
                                                        site_count=site_count,
                                                        all_districts=all_districts)
 
-    elif request.method == "POST":
-        all_schools = School.query.order_by("name").all()
-        all_courses = Course.query.order_by("name").all()
-        all_sites = SiteDetail.query.all()
+def gen_options(options, name, selected=None):
+    """
+    Generate a block of <option>s to send to a template from
+    data received from the database
 
-        return render_template("report.html", all_districts=all_districts,
-                                              all_schools=all_schools,
-                                              all_courses=all_courses,
-                                              all_sites=all_sites, user=user)
+    options -- result of a query to be parsed into html
+    """
+    selected = -1 if selected == 'All' else selected
+
+    select = "<select name=\"%s\">\n" % name
+    select += "<option value=\"All\">---All---</option>\n"
+
+    if options == None:
+        select += "</select>\n"
+        return select
+
+    for option in options:
+        select += "<option value='%s'" % option.id
+
+        if int(selected) == option.id:
+            select += " selected=\"True\" "
+
+        select += ">%s</option>\n" % option.name
+
+    select += "</select>\n"
+    return select
+
+@app.route("/report", methods=['POST','GET'])
+@login_required
+def report():
+    # Redirect the user to the overview if no params are posted
+    if request.method == 'GET':
+        return redirect('/overview')
+
+    form = request.form
+
+    dist_id = form.get("all_districts")
+    school_id = form.get("all_schools")
+    course_id = form.get("all_courses")
+    site_id = form.get("all_sites")
+
+    # Drill down queries
+    districts = District.query.order_by("name").all()
+    schools = School.query.filter_by( district_id = dist_id ).order_by('name').all()
+    sites = Site.query.filter_by( school_id = school_id ).order_by('sitename').all()
+    courses = Course.query.order_by("name").all()
+
+    # Table queries
+    dist_rows = (District.query.filter_by(id=dist_id).order_by("name").all() 
+                if dist_id != 'All' else District.query.order_by("name").all())
+    school_rows = (School.query.filter_by(id=school_id).order_by("name").all()
+                if school_id != 'All' else 
+                    School.query.filter_by(district_id=dist_id).order_by("name").all())
+    site_rows = (Sites.query.filter_by(id=site_id).order_by("sitename").all()
+                if site_id != 'All' else Site.query.all())
+    course_rows = Course.query.all()
+
+
+    district_options = gen_options(districts, 'all_districts', dist_id)
+    school_options = gen_options(schools, 'all_schools', school_id)
+    course_options = gen_options(courses, 'all_courses', course_id)
+    site_options = gen_options(None, 'all_sites', site_id)
+
+    return render_template("report.html",   district_options = district_options,
+                                            all_districts = dist_rows,
+                                            school_options = school_options,
+                                            all_schools = school_rows,
+                                            course_options = course_options,
+                                            all_courses = course_rows,
+                                            site_options = site_options,
+                                            all_sites = site_rows,
+                                            user=current_user)
 
 
 @app.route("/add_user", methods=['GET', 'POST'])

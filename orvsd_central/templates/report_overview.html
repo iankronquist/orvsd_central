@@ -19,7 +19,7 @@
                 <select name="all_districts">
                     <option selected="True" value="All">All</option>
                     {% for district in all_districts %}
-                        <option value="{{district.name}}">{{district.name}}</option>
+                        <option value="{{district.id}}">{{district.name}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -27,7 +27,7 @@
                 <select name="all_schools">
                     <option selected="True" value="All">All</option>
                     {% for school in all_schools %}
-                        <option value="{{school.name}}">{{school.name}}</option>
+                        <option value="{{school.id}}">{{school.name}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -35,7 +35,7 @@
                 <select name="all_sites">
                     <option selected="True" value="All">All</option>
                     {% for site in all_sites %}
-                        <option value="{{site.sitename}}">{{site.sitename}}</option>
+                        <option value="{{site.id}}">{{site.sitename}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -43,7 +43,7 @@
                 <select name="all_courses">
                     <option selected="True" value="All">All</option>
                     {% for course in all_courses %}
-                        <option value="{{course.name}}">{{course.name}}</option>
+                        <option value="{{course.id}}">{{course.name}}</option>
                     {% endfor %}
                 </select>
             </div>
