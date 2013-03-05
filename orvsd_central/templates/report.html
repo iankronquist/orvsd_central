@@ -79,24 +79,21 @@
         <table class='table table-striped table-hover table-condensed table-bordered'>
             <thead>
             <tr>
-                <th>Site Id</th>
+                <th>Site Name</th>
                 <th>Admin Email</th>
                 <th>Total Users</th>
                 <th># Admins</th>
                 <th># Teachers</th>
-                <th># Courses</th>
             </tr>
             </thead>
             <tbody>
             {% for site in all_sites %}
             <tr>
-                <td>{{site.site_id}}</td>
+                <td>{{site.name}}</td>
                 <td>{{site.adminemail}}</td>
                 <td>{{site.totalusers}}</td>
                 <td>{{site.adminusers}}</td>
                 <td>{{site.teachers}}</td>
-                <td>{{site.totalcourses}}</td>
-                <td>NULL</td>
             </tr>
             {% endfor %}
             </tbody>
