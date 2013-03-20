@@ -133,34 +133,21 @@ def logout():
     logout_user()
     return redirect('/login')
 
-@app.route("/report", methods=['GET', 'POST'])
+@app.route("/report", methods=['POST'])
 @login_required
 def report():
     user = current_user
 
     all_districts = District.query.order_by("name").all()
 
-    if request.method == "GET":
-        dist_count = District.query.count()
-        school_count = School.query.count()
-        course_count = Course.query.count()
-        site_count = SiteDetail.query.count()
+    all_schools = School.query.order_by("name").all()
+    all_courses = Course.query.order_by("name").all()
+    all_sites = SiteDetail.query.all()
 
-        return render_template("report_overview.html", dist_count=dist_count,
-                                                       school_count=school_count,
-                                                       course_count=course_count,
-                                                       site_count=site_count,
-                                                       all_districts=all_districts)
-
-    elif request.method == "POST":
-        all_schools = School.query.order_by("name").all()
-        all_courses = Course.query.order_by("name").all()
-        all_sites = SiteDetail.query.all()
-
-        return render_template("report.html", all_districts=all_districts,
-                                              all_schools=all_schools,
-                                              all_courses=all_courses,
-                                              all_sites=all_sites, user=user)
+    return render_template("report.html", all_districts=all_districts,
+                                          all_schools=all_schools,
+                                          all_courses=all_courses,
+                                          all_sites=all_sites, user=user)
 
 
 @app.route("/add_user", methods=['GET', 'POST'])
