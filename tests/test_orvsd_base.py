@@ -1,5 +1,7 @@
 from unittest import TestCase
 
+from manage import setup_app
+
 from orvsd_central.models import User
 from orvsd_central.database import create_db_session
 
