@@ -10,6 +10,7 @@ class TestRegistration(BaseORVSDTest):
         self.login('testeradmin', 'password')
 
     def tearDown(self):
+        self.logout()
         self.delete_user('testeradmin')
 
     def test_duplicate_emails(self):
@@ -27,4 +28,3 @@ class TestRegistration(BaseORVSDTest):
                         response2.data)
         self.delete_user('test1')
         self.delete_user('test2')
-
