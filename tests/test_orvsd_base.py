@@ -24,6 +24,9 @@ class BaseORVSDTest(TestCase):
             password=password
         ), follow_redirects=True)
 
+    def logout(self):
+        self.test_client.get('logout')
+
     def register(self, user, password, role, email):
         """
         Regiser a user.
