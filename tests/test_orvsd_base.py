@@ -57,7 +57,7 @@ class BaseORVSDTest(TestCase):
         * admin
         """
         roles = {
-            'normail': 1,
+            'normal': 1,
             'helper': 2,
             'admin': 3,
         }
